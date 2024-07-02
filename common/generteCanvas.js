@@ -1,5 +1,5 @@
 // 引入html2canvas 最新版本特定环境下存在渲染问题
-import html2canvas from './html2canvas/html2canvas.js'
+import html2canvas from 'htmltocanvas-plus'
 
 // 生成canvas dom
 const generteCanvas = (

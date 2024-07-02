@@ -1,13 +1,21 @@
 {
-  "name": "capture-screen",
+  "name": "shot-web-screen",
   "version": "1.0.0",
   "description": "capture-web-screen",
-  "homepage": "", 
+  "homepage": "",
   "bugs": "3126476753@qq.com",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "light-year",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justLaylows/capture-screen.git"
+  },
+  "dependencies": {
+    "htmltocanvas-plus": "^1.4.12"
+  },
+  "devDependencies": {}
 }

@@ -1,75 +1,66 @@
-/*
- * @Author: yanghaoxuan
- * @LastEditors: yanghaoxuan
- * @Date: 2024-05-11  13:44:02
- * @LastEditTime: 2024-05-11 13:44:02
- * @Description: 绘制剪切框
- * @FilePath: src\scopes\project\common\utils\chat\tool-fun\capture-screen\drawMethods\drawCutBox.js
- */
-
 class drawCutBox {
   constructor(dom, drawWidth, drawHeight, callback) {
-    this.dom = dom
-    this.drawWidth = drawWidth
-    this.drawHeight = drawHeight
-    this.callback = callback
-    this.drawingInfo = {}
-    this.positionInfo = {}
+    this.dom = dom;
+    this.drawWidth = drawWidth;
+    this.drawHeight = drawHeight;
+    this.callback = callback;
+    this.drawingInfo = {};
+    this.positionInfo = {};
 
-    this.handleMouseDown = this.mouseDownEvent.bind(this)
-    this.handleMouseMove = this.mouseMoveEvent.bind(this)
-    this.handleMouseUp = this.mouseUpEvent.bind(this)
+    this.handleMouseDown = this.mouseDownEvent.bind(this);
+    this.handleMouseMove = this.mouseMoveEvent.bind(this);
+    this.handleMouseUp = this.mouseUpEvent.bind(this);
   }
 
   // 通过事件监听获取剪裁框的位置信息
   drawing() {
-    this.dom && this.dom.addEventListener('mousedown', this.handleMouseDown)
+    this.dom && this.dom.addEventListener("mousedown", this.handleMouseDown);
   }
   destroy() {
-    this.dom && (this.dom.style.cursor = 'inherit')
-    this.dom && this.dom.removeEventListener('mousedown', this.handleMouseDown)
-    this.dom && this.dom.removeEventListener('mousemove', this.handleMouseMove)
-    this.dom && this.dom.removeEventListener('mouseup', this.handleMouseUp)
+    this.dom && (this.dom.style.cursor = "inherit");
+    this.dom && this.dom.removeEventListener("mousedown", this.handleMouseDown);
+    this.dom && this.dom.removeEventListener("mousemove", this.handleMouseMove);
+    this.dom && this.dom.removeEventListener("mouseup", this.handleMouseUp);
   }
   mouseDownEvent(e) {
     this.drawingInfo = {
       x: e.clientX,
       y: e.clientY,
-      status: 'init'
-    }
+      status: "init",
+    };
     // 改变鼠标指示器状态
-    this.dom.style.cursor = 'crosshair'
-    this.dom.addEventListener('mousemove', this.handleMouseMove)
-    this.dom.addEventListener('mouseup', this.handleMouseUp)
+    this.dom.style.cursor = "crosshair";
+    this.dom.addEventListener("mousemove", this.handleMouseMove);
+    this.dom.addEventListener("mouseup", this.handleMouseUp);
   }
   mouseMoveEvent(e) {
-    const { x, y } = this.drawingInfo
-    const mouseX = e.clientX
-    const mouseY = e.clientY
+    const { x, y } = this.drawingInfo;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
 
     this.positionInfo = {
       x: Math.max(Math.min(x, mouseX), 0),
       y: Math.max(Math.min(y, mouseY), 0),
       width: Math.min(Math.abs(x - mouseX), this.drawWidth),
-      height: Math.min(Math.abs(y - mouseY), this.drawHeight)
-    }
-    this.drawingInfo.status = 'drawing'
-    this.callback && this.callback(this.positionInfo, 'drawing')
+      height: Math.min(Math.abs(y - mouseY), this.drawHeight),
+    };
+    this.drawingInfo.status = "drawing";
+    this.callback && this.callback(this.positionInfo, "drawing");
   }
   mouseUpEvent() {
     // 单次点击剪裁全屏
-    if (this.drawingInfo.status === 'init') {
+    if (this.drawingInfo.status === "init") {
       const positionInfo = {
         x: 0,
         y: 0,
         width: this.drawWidth,
-        height: this.drawHeight
-      }
-      this.callback && this.callback(positionInfo, 'drawover')
+        height: this.drawHeight,
+      };
+      this.callback && this.callback(positionInfo, "drawover");
     } else {
-      this.callback && this.callback(this.positionInfo, 'drawover')
+      this.callback && this.callback(this.positionInfo, "drawover");
     }
-    this.destroy()
+    this.destroy();
   }
   /**
    * @func 绘制裁剪框
@@ -82,12 +73,12 @@ class drawCutBox {
    * @return {}
    */
   drawCutOutBox(ctx, cutBoxInfo, isPoints = true) {
-    const { x, y, width, height } = cutBoxInfo
-    const borderSize = 6
-    this.drawShadowMask(ctx, cutBoxInfo)
+    const { x, y, width, height } = cutBoxInfo;
+    const borderSize = 6;
+    this.drawShadowMask(ctx, cutBoxInfo);
     // 绘制边框线条
-    this.setOptions(ctx)
-    ctx.strokeRect(x, y, width, height)
+    this.setOptions(ctx);
+    ctx.strokeRect(x, y, width, height);
     // 绘制8个边框像素点并保存坐标信息以及事件参数
 
     // 绘制像素点
@@ -97,40 +88,45 @@ class drawCutBox {
       width,
       height,
       borderSize
-    )
+    );
     isPoints &&
-      pointsPlace.forEach(item => {
-        ctx.fillRect(...item, borderSize, borderSize)
-      })
+      pointsPlace.forEach((item) => {
+        ctx.fillRect(...item, borderSize, borderSize);
+      });
   }
   // 绘制阴影蒙层
   drawShadowMask(ctx, cutBoxInfo) {
-    const { x, y, width, height } = cutBoxInfo
+    const { x, y, width, height } = cutBoxInfo;
     // 获取一个大矩形除去中间小矩形的上下左右位置信息
-    const top = [0, 0, this.drawWidth, y]
-    const left = [0, y, x, height]
-    const right = [x + width, y, this.drawWidth - x - width, height]
-    const bottom = [0, y + height, this.drawWidth, this.drawHeight - y - height]
-    const positionList = [top, left, right, bottom]
-    ctx.fillStyle = 'rgba(0, 0, 0, .5)'
+    const top = [0, 0, this.drawWidth, y];
+    const left = [0, y, x, height];
+    const right = [x + width, y, this.drawWidth - x - width, height];
+    const bottom = [
+      0,
+      y + height,
+      this.drawWidth,
+      this.drawHeight - y - height,
+    ];
+    const positionList = [top, left, right, bottom];
+    ctx.fillStyle = "rgba(0, 0, 0, .5)";
 
-    positionList.forEach(item => {
-      ctx.clearRect(...item)
-      ctx.fillRect(...item)
-    })
+    positionList.forEach((item) => {
+      ctx.clearRect(...item);
+      ctx.fillRect(...item);
+    });
   }
 
   // 设置样式配置
   setOptions(ctx) {
     const option = {
-      strokeStyle: '#2CABFF',
+      strokeStyle: "#2CABFF",
       lineWidth: 1,
-      fillStyle: '#2CABFF'
-    }
+      fillStyle: "#2CABFF",
+    };
 
-    Object.keys(option).forEach(key => {
-      ctx[key] && (ctx[key] = option[key])
-    })
+    Object.keys(option).forEach((key) => {
+      ctx[key] && (ctx[key] = option[key]);
+    });
   }
 
   // 获取六个标识定位、顺时针
@@ -143,8 +139,8 @@ class drawCutBox {
       [x - size / 2 + width, y - size / 2 + height],
       [x - size / 2 + width / 2, y - size / 2 + height],
       [x - size / 2, y - size / 2 + height],
-      [x - size / 2, y - size / 2 + height / 2]
-    ]
+      [x - size / 2, y - size / 2 + height / 2],
+    ];
   }
   /**
    * @func  判断剪裁框操作方法：移动
@@ -160,9 +156,9 @@ class drawCutBox {
    * }
    */
   judgeOperate(positionInfo, mouseX, mouseY) {
-    if (!positionInfo) return
-    const blurDistance = 5
-    const { x, y, width, height } = positionInfo
+    if (!positionInfo) return;
+    const blurDistance = 5;
+    const { x, y, width, height } = positionInfo;
 
     // 判断点是否在矩形的左上角
 
@@ -171,20 +167,20 @@ class drawCutBox {
     )
       // 左上角resize操作
       return {
-        mouseCursor: 'nw-resize',
+        mouseCursor: "nw-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
 
           const newPosition = {
             x: x + offsetX,
             y: y + offsetY,
             width: width - offsetX,
-            height: height - offsetY
-          }
+            height: height - offsetY,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
     // 判断点是否在矩形的右上角
     if (
       this.checkIsRectInside(
@@ -198,19 +194,19 @@ class drawCutBox {
     )
       // 右上角resize操作
       return {
-        mouseCursor: 'ne-resize',
+        mouseCursor: "ne-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x,
             y: y + offsetY,
             width: width + offsetX,
-            height: height - offsetY
-          }
+            height: height - offsetY,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     // 判断点是否在矩形的左下角
     if (
@@ -225,19 +221,19 @@ class drawCutBox {
     )
       // 左下角resize操作
       return {
-        mouseCursor: 'sw-resize',
+        mouseCursor: "sw-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x: x + offsetX,
             y,
             width: width - offsetX,
-            height: height + offsetY
-          }
+            height: height + offsetY,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     // 判断点是否在矩形的右下角
 
@@ -253,19 +249,19 @@ class drawCutBox {
     )
       // 右下角resize操作
       return {
-        mouseCursor: 'se-resize',
+        mouseCursor: "se-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x,
             y,
             width: width + offsetX,
-            height: height + offsetY
-          }
+            height: height + offsetY,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     // 判断点是否在矩形的上边缘线上
 
@@ -281,19 +277,19 @@ class drawCutBox {
     )
       // 上边缘线resize操作
       return {
-        mouseCursor: 'ns-resize',
+        mouseCursor: "ns-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x,
             y: y + offsetY,
             width,
-            height: height - offsetY
-          }
+            height: height - offsetY,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     // 判断点是否在矩形的下边缘线上
 
@@ -309,19 +305,19 @@ class drawCutBox {
     )
       // 下边缘线resize操作
       return {
-        mouseCursor: 'ns-resize',
+        mouseCursor: "ns-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x,
             y,
             width,
-            height: height + offsetY
-          }
+            height: height + offsetY,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     // 判断点是否在矩形的左边缘线上
 
@@ -337,19 +333,19 @@ class drawCutBox {
     )
       // 左边缘线resize操作
       return {
-        mouseCursor: 'ew-resize',
+        mouseCursor: "ew-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x: x + offsetX,
             y,
             width: width - offsetX,
-            height
-          }
+            height,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     // 判断点是否在矩形的右边缘线上
 
@@ -365,19 +361,19 @@ class drawCutBox {
     )
       // 右边缘线resize操作
       return {
-        mouseCursor: 'ew-resize',
+        mouseCursor: "ew-resize",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x,
             y,
             width: width + offsetX,
-            height
-          }
+            height,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
 
     //判断是否在剪裁框内部
     if (
@@ -392,35 +388,35 @@ class drawCutBox {
     )
       // 剪裁框内部resize操作
       return {
-        mouseCursor: 'move',
+        mouseCursor: "move",
         fnExecution: (positionInfo, offsetX, offsetY) => {
-          const { x, y, width, height } = positionInfo
+          const { x, y, width, height } = positionInfo;
           const newPosition = {
             x: Math.min(Math.max(x + offsetX, 0), this.drawWidth - width),
             y: Math.min(Math.max(y + offsetY, 0), this.drawHeight - height),
             width,
-            height
-          }
+            height,
+          };
 
-          return this.handleNewData(newPosition)
-        }
-      }
+          return this.handleNewData(newPosition);
+        },
+      };
   }
   // 判断点是否在矩形内
   checkIsRectInside(mouseX, mouseY, x, y, width, height) {
-    return Math.abs(mouseX - x) <= width && Math.abs(mouseY - y) <= height
+    return Math.abs(mouseX - x) <= width && Math.abs(mouseY - y) <= height;
   }
   // 处理新的位置数据信息
   handleNewData(newPosition) {
-    let { x, y, width, height } = newPosition
+    let { x, y, width, height } = newPosition;
     // 当伸拉反方向超出时，调整坐标
-    width < 0 && (x += width)
-    height < 0 && (y += height)
-    x = Math.max(0, x)
-    y = Math.max(0, y)
-    width = Math.min(Math.abs(width), this.drawWidth)
-    height = Math.min(Math.abs(height), this.drawHeight)
-    return { x, y, width, height }
+    width < 0 && (x += width);
+    height < 0 && (y += height);
+    x = Math.max(0, x);
+    y = Math.max(0, y);
+    width = Math.min(Math.abs(width), this.drawWidth);
+    height = Math.min(Math.abs(height), this.drawHeight);
+    return { x, y, width, height };
   }
 }
-export default drawCutBox
+export default drawCutBox;

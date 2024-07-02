@@ -1,68 +1,59 @@
-/*
- * @Author: yanghaoxuan
- * @LastEditors: yanghaoxuan
- * @Date: 2024-05-11  09:42:14
- * @LastEditTime: 2024-05-11 09:42:14
- * @Description: 创建工具栏
- * @FilePath: src\scopes\project\common\utils\chat\tool-fun\capture-screen\toolPanel.js
- */
-
 class ToolPanel {
   createToolDom(clickEvent, zIndex) {
     const toolList = [
       {
-        label: '矩形',
-        value: 'rectangle'
+        label: "矩形",
+        value: "rectangle",
       },
       {
-        label: '椭圆',
-        value: 'circle'
+        label: "椭圆",
+        value: "circle",
       },
       {
-        label: '箭头',
-        value: 'arrow'
+        label: "箭头",
+        value: "arrow",
       },
       {
-        label: '画笔',
-        value: 'brush'
+        label: "画笔",
+        value: "brush",
       },
       {
-        label: '马赛克',
-        value: 'mosaic'
+        label: "马赛克",
+        value: "mosaic",
       },
       {
-        label: '文本',
-        value: 'text'
+        label: "文本",
+        value: "text",
       },
       {
-        label: '撤销',
-        value: 'revoke'
+        label: "撤销",
+        value: "revoke",
       },
       {
-        label: '退出',
-        value: 'exit'
+        label: "退出",
+        value: "exit",
       },
       {
-        label: '下载',
-        value: 'download'
+        label: "下载",
+        value: "download",
       },
       {
-        label: '保存',
-        value: 'save'
-      }
-    ]
-    const toolBox = document.createElement('div')
-    toolBox.className = 'capture_screen_tool_panel'
-    toolBox.style.zIndex = zIndex
-    toolList.forEach(item => {
-      const toolItem = document.createElement('span')
-      toolItem.className = `capture_screen_tool_item tool_item_${item.value}`
-      toolItem.setAttribute('tool-data', item.value)
-      toolItem.setAttribute('title', item.label)
-      toolBox.appendChild(toolItem)
-    })
-    toolBox.onclick = clickEvent
-    return toolBox
+        label: "保存",
+        value: "save",
+      },
+    ];
+    const toolBox = document.createElement("div");
+    toolBox.className = "capture_screen_tool_panel";
+    toolBox.style.zIndex = zIndex;
+    toolList.forEach((item) => {
+      const toolItem = document.createElement("span");
+      toolItem.className = `capture_screen_tool_item tool_item_${item.value}`;
+      toolItem.setAttribute("tool-data", item.value);
+      toolItem.setAttribute("title", item.label);
+      toolBox.appendChild(toolItem);
+    });
+    toolBox.onclick = clickEvent;
+    return toolBox;
   }
 
   /**
@@ -77,15 +68,15 @@ class ToolPanel {
    * @return {}
    */
   setToolsPosition(toolsDom, cutBoxInfo, drawWidth, drawHeight, isShow = true) {
-    const { x, y, width, height } = cutBoxInfo
-    const right = drawWidth - x - width + 5
-    const top = y + height + 5
-    toolsDom.style.right = Math.min(right, drawWidth) + 'px'
+    const { x, y, width, height } = cutBoxInfo;
+    const right = drawWidth - x - width + 5;
+    const top = y + height + 5;
+    toolsDom.style.right = Math.min(right, drawWidth) + "px";
     // 考虑到color与size设置项
     toolsDom.style.top =
-      Math.max(top + 80 > drawHeight ? y - 40 : top, 5) + 'px'
-    toolsDom.style.display = isShow ? 'flex' : 'none'
+      Math.max(top + 80 > drawHeight ? y - 40 : top, 5) + "px";
+    toolsDom.style.display = isShow ? "flex" : "none";
   }
 }
 
-export default new ToolPanel()
+export default new ToolPanel();
