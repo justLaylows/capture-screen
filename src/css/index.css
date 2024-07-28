@@ -1,0 +1,182 @@
+/* 工具栏样式 */
+
+.capture_screen_tool_panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+}
+.capture_screen_tool_item {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.tool_item_rectangle {
+  background: url("../assets/rectangle.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_rectangle:hover,
+.tool_item_rectangle.active {
+  background: url("../assets/rectangle-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_circle {
+  background: url("../assets/circle.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_circle:hover,
+.tool_item_circle.active {
+  background: url("../assets/circle-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_arrow {
+  background: url("../assets/arrow.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_arrow:hover,
+.tool_item_arrow.active {
+  background: url("../assets/arrow-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_brush {
+  background: url("../assets/brush.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_brush:hover,
+.tool_item_brush.active {
+  background: url("../assets/brush-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_mosaic {
+  background: url("../assets/mosaic.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_mosaic:hover,
+.tool_item_mosaic.active {
+  background: url("../assets/mosaic-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_text {
+  background: url("../assets/text.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_text:hover,
+.tool_item_text.active {
+  background: url("../assets/text-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_revoke {
+  background: url("../assets/revoke.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_revoke:hover,
+.tool_item_revoke.active {
+  background: url("../assets/revoke-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_exit {
+  background: url("../assets/exit.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_exit:hover,
+.tool_item_exit.active {
+  background: url("../assets/exit-active.png") no-repeat;
+  background-size: cover;
+}
+
+.tool_item_download {
+  background: url("../assets/download.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_download:hover,
+.tool_item_download.active {
+  background: url("../assets/download-active.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_save {
+  background: url("../assets/save.png") no-repeat;
+  background-size: cover;
+}
+.tool_item_save:hover,
+.tool_item_save.active {
+  background: url("../assets/save-active.png") no-repeat;
+  background-size: cover;
+}
+
+/* 配置栏样式 */
+
+.capture_screen_option-box {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+/* 三角形角标 */
+.capture_screen_option-box .triangle-icon {
+  position: absolute;
+  top: -6px;
+  width: 0;
+  height: 0;
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  border-top: 6px solid #ffffff;
+  transform: rotate(180deg) translateX(50%);
+}
+
+.capture_screen_size-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.capture_screen_size-box span {
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #c4c2c2;
+  cursor: pointer;
+}
+.capture_screen_size-box span:nth-child(1) {
+  border: 4px solid #fff;
+}
+
+.capture_screen_size-box span:nth-child(2) {
+  border: 2px solid #fff;
+}
+
+.capture_screen_size-box span:hover,
+.capture_screen_size-box span.active {
+  background-color: #0bc2fa;
+}
+
+.capture_screen_color-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.capture_screen_color-box span {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #666;
+  cursor: pointer;
+}
+.capture_screen_color-box span.active {
+  transform: scale(1.2);
+  border: 1px solid #0463f2;
+}
