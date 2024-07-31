@@ -1,0 +1,10 @@
+.github/
+.idea/
+build/
+configs/
+docs/
+examples/
+src/
+.eslintrc
+.npmignore
+rollup.config.ts

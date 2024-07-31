@@ -1,0 +1,9 @@
+/dist
+/tmp
+/build
+node_modules/
+npm-debug.log
+debug.log
+tests/reftests.js
+*.log
+.rpt2_cache
