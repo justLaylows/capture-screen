@@ -1,6 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import sourceMaps from 'rollup-plugin-sourcemaps';
+import { terser } from 'rollup-plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from "autoprefixer";
@@ -16,16 +16,15 @@ const banner = `/*!
 export default {
     input: `src/index.ts`,
     output: [
-        { file: pkg.main, name: pkg.name, format: 'umd', banner, sourcemap: true },
-        { file: pkg.module, format: 'esm', banner, sourcemap: true },
+        { file: pkg.main, name: pkg.name, format: 'umd', banner, },
+        { file: pkg.module, format: 'esm', banner },
     ],
     watch: {
         include: 'src/**',
     },
     plugins: [
-        typescript({ sourceMap: true, inlineSources: true }),
+        typescript(),
         commonjs(),
-        sourceMaps(),
         postcss({
             minimize: true,
             sourceMap: false,
@@ -53,5 +52,16 @@ export default {
             limit: 10 * 1024 // 10KB
         }),
         resolve(),
+        terser({
+            // 可选的配置选项
+            format: {
+                comments: false, // 移除所有注释
+            },
+            mangle: true, // 变量名混淆
+            compress: {
+                drop_console: true, // 移除 console.log 等
+                pure_funcs: ['console.log'] // 移除 console.log 函数调用
+            }
+        }),
     ],
 }
